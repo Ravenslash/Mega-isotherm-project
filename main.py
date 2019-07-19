@@ -1,8 +1,20 @@
 import json
 from urllib.request import urlopen
+from sys import exit
+
+# get list of adsorbents
+adsorbent_json = json.load(urlopen("https://adsorbents.nist.gov/matdb/api/materials.json"))
+
+# get list of adsorbates
+adsorbate_json = json.load(urlopen("https://adsorbents.nist.gov/isodb/api/gases.json"))
+
 
 # get list of isotherms for searching
 item1 = json.load(urlopen("https://adsorbents.nist.gov/isodb/api/isotherms.json"))
+
+# take input on what adsorbent and adsorbate we want
+adsorbent = input("adsorbent >> ")
+adsorbate = input("adsorbate >> ")
 
 # list of good files
 file_list = []
@@ -10,10 +22,30 @@ file_list = []
 # list of data pts
 data = []
 
+# find hashkey for adsorbent
+adsorbent_hashkey = None
+for x in adsorbent_json:
+  if x['name'] == adsorbent or adsorbent in x['synonyms']:
+    adsorbent_hashkey = x['hashkey']
+    break
+
+if adsorbent_hashkey == None:
+  exit("adsorbent not found")
+
+# find InChIKey for adsorbate
+adsorbate_InChIKey = None
+for x in adsorbate_json:
+  if x['name'] == adsorbate or adsorbate in x['synonyms']:
+    adsorbate_InChIKey = x['InChIKey']
+    break
+
+if adsorbate_InChIKey == None:
+  exit("adsorbate not found")
+
 # for each isotherm
 for x in item1:
   # if adsorbate is N2 and adsorbent is CuBTC, add it to list
-  if x['adsorbates'][0]['InChIKey'] == 'IJGRMHOSHXDMSA-UHFFFAOYSA-N' and x['adsorbent']['hashkey'] == 'NIST-MATDB-991daf7313251e7e607e2bab2da57e33':
+  if x['adsorbates'][0]['InChIKey'] == f'{adsorbate_InChIKey}' and x['adsorbent']['hashkey'] == f'{adsorbent_hashkey}':
     file_list.append(x['filename'])
 
 # for each isotherm
