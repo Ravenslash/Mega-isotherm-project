@@ -23,29 +23,29 @@ data = []
 adsorbent_hashkey = None
 while adsorbent_hashkey == None:
 
-    adsorbent = input("adsorbent >> ")
+  adsorbent = input("adsorbent >> ")
 
-    for x in adsorbent_json:
-      if x['name'] == adsorbent or adsorbent in x['synonyms']:
-        adsorbent_hashkey = x['hashkey']
-        break
+  for x in adsorbent_json:
+    if x['name'] == adsorbent or adsorbent in x['synonyms']:
+      adsorbent_hashkey = x['hashkey']
+      break
 
-    if adsorbent_hashkey == None:
-      print("adsorbent not found")
+if adsorbent_hashkey == None:
+  print("adsorbent not found")
 
 # find InChIKey for adsorbate
 adsorbate_InChIKey = None
 while adsorbate_InChIKey == None:
 
-    adsorbate = input("adsorbate >> ")
+  adsorbate = input("adsorbate >> ")
 
-    for x in adsorbate_json:
-      if x['name'] == adsorbate or adsorbate in x['synonyms']:
-        adsorbate_InChIKey = x['InChIKey']
-        break
+  for x in adsorbate_json:
+    if x['name'] == adsorbate or adsorbate in x['synonyms']:
+      adsorbate_InChIKey = x['InChIKey']
+      break
 
-    if adsorbate_InChIKey == None:
-      print("adsorbate not found")
+if adsorbate_InChIKey == None:
+  print("adsorbate not found")
 
 temperature = None
 while temperature == None:
@@ -57,7 +57,6 @@ while temperature == None:
     break
   except ValueError:
     print("please input a valid integer")
-    temperature = None
 
 ads_unit = input("adsorption units >> ")
 
@@ -82,7 +81,7 @@ for filename in file_list:
       data.append((file_['isotherm_data'][num]['pressure'], file_['isotherm_data'][num]['species_data'][0]['adsorption'], filename))
       print((file_['isotherm_data'][num]['pressure'], file_['isotherm_data'][num]['species_data'][0]['adsorption']))
 
-with open("out.csv", 'w') as out:
+with open(((adsorbate + ' ' +adsorbent + ' ' + str(temperature) + ' ' + ads_unit.replace('/', ' per ') + ".csv") if len(data) == 0 else ('ZZZEMPTY' + adsorbate + ' ' +adsorbent + ' ' + str(temperature) + ' ' + ads_unit.replace('/', ' per ') + ".csv")), 'w+') as out:
     fieldnames = ['pressure', 'Q', 'filename']
     writer = csv.DictWriter(out, fieldnames=fieldnames)
 
