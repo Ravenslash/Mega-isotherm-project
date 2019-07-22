@@ -14,5 +14,3 @@ Daniel Coile
 Justin Chen
 *email
 
-
-make sure to create "out.csv" in project directory
