@@ -57,6 +57,7 @@ while temperature == None:
     break
   except ValueError:
     print("please input a valid integer")
+    temperature = None
 
 ads_unit = input("adsorption units >> ")
 
