@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 def display(some_list_x, some_list_y):
     plt.scatter(some_list_x, some_list_y, s=1)
     plt.draw()
-    plt.pause(10)
+    plt.pause(100000)
     plt.clf()
 
 def tupleize_2(string):
