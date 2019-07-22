@@ -47,10 +47,23 @@ while adsorbate_InChIKey == None:
     if adsorbate_InChIKey == None:
       print("adsorbate not found")
 
+temperature = None
+while temperature == None:
+
+  temperature = input("temp >> ")
+
+  try:
+    temperature = int(temperature)
+    break
+  except ValueError:
+    print("please input a valid integer")
+
+ads_unit = input("adsorption units >> ")
+
 # for each isotherm
 for x in item1:
   # if adsorbate is N2 and adsorbent is CuBTC, add it to list
-  if x['adsorbates'][0]['InChIKey'] == f'{adsorbate_InChIKey}' and x['adsorbent']['hashkey'] == f'{adsorbent_hashkey}' and len(x['adsorbates']) == 1:
+  if x['adsorbates'][0]['InChIKey'] == f'{adsorbate_InChIKey}' and x['adsorbent']['hashkey'] == f'{adsorbent_hashkey}' and len(x['adsorbates']) == 1 and x['temperature'] == temperature:
     file_list.append(x['filename'])
 
 # for each isotherm
@@ -59,7 +72,7 @@ for filename in file_list:
   file_ = json.load(urlopen(f"https://adsorbents.nist.gov/isodb/api/isotherm/{filename}.json"))
   print(filename)
   # if the units are what we want
-  if file_['adsorptionUnits'] == 'mmol/g':
+  if file_['adsorptionUnits'] == ads_unit:
     #for each data pt
     for num in range(len(file_['isotherm_data'])):
       #for type in ['pressure', 'total_adsorption']:
