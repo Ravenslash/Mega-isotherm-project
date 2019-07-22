@@ -30,22 +30,35 @@ while adsorbent_hashkey == None:
       adsorbent_hashkey = x['hashkey']
       break
 
-if adsorbent_hashkey == None:
-  print("adsorbent not found")
+  if adsorbent_hashkey == None:
+    print("adsorbent not found")
+
+num_adsorbate = None
+while num_adsorbate == None:
+  try:
+    num_adsorbate = int(input("How many adsorbates? >> "))
+  except ValueError:
+    print("please input a valid integer")
+
+adsorbate_InChIKey_list = []
+adsorbate_list = []
 
 # find InChIKey for adsorbate
-adsorbate_InChIKey = None
-while adsorbate_InChIKey == None:
+for n in range(num_adsorbate):
+  adsorbate_InChIKey = None
+  while adsorbate_InChIKey == None:
 
-  adsorbate = input("adsorbate >> ")
+    adsorbate = input("adsorbate >> ")
 
-  for x in adsorbate_json:
-    if x['name'] == adsorbate or adsorbate in x['synonyms']:
-      adsorbate_InChIKey = x['InChIKey']
-      break
+    for x in adsorbate_json:
+      if x['name'] == adsorbate or adsorbate in x['synonyms']:
+        adsorbate_InChIKey_list.append(x['InChIKey'])
+        adsorbate_list.append(adsorbate)
+        adsorbate_InChIKey = 1
+        break
 
-if adsorbate_InChIKey == None:
-  print("adsorbate not found")
+    if adsorbate_InChIKey == None:
+      print("adsorbate not found")
 
 temperature = None
 while temperature == None:
@@ -62,8 +75,12 @@ ads_unit = input("adsorption units >> ")
 
 # for each isotherm
 for x in item1:
-  # if adsorbate is N2 and adsorbent is CuBTC, add it to list
-  if x['adsorbates'][0]['InChIKey'] == f'{adsorbate_InChIKey}' and x['adsorbent']['hashkey'] == f'{adsorbent_hashkey}' and len(x['adsorbates']) == 1 and x['temperature'] == temperature:
+  count = 0
+  for key in adsorbate_InChIKey_list:
+    # if adsorbate is N2 and adsorbent is CuBTC, add it to list
+    if {"InChIKey": f"{key}"} in x['adsorbates'] and x['adsorbent']['hashkey'] == f'{adsorbent_hashkey}' and len(x['adsorbates']) == num_adsorbate and x['temperature'] == temperature:
+      count += 1
+  if count == num_adsorbate:
     file_list.append(x['filename'])
 
 # for each isotherm
@@ -73,21 +90,24 @@ for filename in file_list:
   print(filename)
   # if the units are what we want
   if file_['adsorptionUnits'] == ads_unit:
-    #for each data pt
-    for num in range(len(file_['isotherm_data'])):
-      #for type in ['pressure', 'total_adsorption']:
-        #print(f"{type}: {file_['isotherm_data'][num][type]}")
-      # add data pt to list
-      data.append((file_['isotherm_data'][num]['pressure'], file_['isotherm_data'][num]['species_data'][0]['adsorption'], filename))
-      print((file_['isotherm_data'][num]['pressure'], file_['isotherm_data'][num]['species_data'][0]['adsorption']))
+    for l in range(num_adsorbate):
+      #for each data pt
+      for num in range(len(file_['isotherm_data'])):
+        #for type in ['pressure', 'total_adsorption']:
+          #print(f"{type}: {file_['isotherm_data'][num][type]}")
+        # add data pt to list
+        data.append((file_['isotherm_data'][num]['pressure'], file_['isotherm_data'][num]['species_data'][l]['adsorption'], adsorbate_list[l], filename))
+        print((file_['isotherm_data'][num]['pressure'], file_['isotherm_data'][num]['species_data'][l]['adsorption'], adsorbate_list[l]))
 
-with open(((adsorbate + ' ' +adsorbent + ' ' + str(temperature) + ' ' + ads_unit.replace('/', ' per ') + ".csv") if len(data) == 0 else ('ZZZEMPTY' + adsorbate + ' ' +adsorbent + ' ' + str(temperature) + ' ' + ads_unit.replace('/', ' per ') + ".csv")), 'w+') as out:
-    fieldnames = ['pressure', 'Q', 'filename']
+adsorbate_str = ' '.join(adsorbate_list)
+
+with open(((adsorbate_str + ' ' + adsorbent + ' ' + str(temperature) + ' ' + ads_unit.replace('/', ' per ') + ".csv") if len(data) != 0 else ('ZZZEMPTY' + adsorbate_str + ' ' +adsorbent + ' ' + str(temperature) + ' ' + ads_unit.replace('/', ' per ') + ".csv")), 'w+') as out:
+    fieldnames = ['pressure', 'Q', 'species', 'filename']
     writer = csv.DictWriter(out, fieldnames=fieldnames)
 
     writer.writeheader()
 
     for datapoint in data:
-        writer.writerow({'pressure': datapoint[0], 'Q': datapoint[1], 'filename': datapoint[2]})
+        writer.writerow({'pressure': datapoint[0], 'Q': datapoint[1], 'species': datapoint[2], 'filename': datapoint[3]})
 
     out.close()
