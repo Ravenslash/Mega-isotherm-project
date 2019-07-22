@@ -6,11 +6,13 @@ Noah Whelpley
 nwhelpley@gmail.com
 
 Gabrille Magid
-
+*email*
 
 Daniel Coile
-
+*email*
 
 Justin Chen
+*email
 
-*more info here*
+
+make sure to create "out.csv" in project directory
