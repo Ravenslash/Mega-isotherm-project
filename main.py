@@ -13,10 +13,6 @@ adsorbate_json = json.load(urlopen("https://adsorbents.nist.gov/isodb/api/gases.
 # get list of isotherms for searching
 item1 = json.load(urlopen("https://adsorbents.nist.gov/isodb/api/isotherms.json"))
 
-# take input on what adsorbent and adsorbate we want
-adsorbent = input("adsorbent >> ")
-adsorbate = input("adsorbate >> ")
-
 # list of good files
 file_list = []
 
@@ -25,23 +21,31 @@ data = []
 
 # find hashkey for adsorbent
 adsorbent_hashkey = None
-for x in adsorbent_json:
-  if x['name'] == adsorbent or adsorbent in x['synonyms']:
-    adsorbent_hashkey = x['hashkey']
-    break
+while adsorbent_hashkey == None:
 
-if adsorbent_hashkey == None:
-  exit("adsorbent not found")
+    adsorbent = input("adsorbent >> ")
+
+    for x in adsorbent_json:
+      if x['name'] == adsorbent or adsorbent in x['synonyms']:
+        adsorbent_hashkey = x['hashkey']
+        break
+
+    if adsorbent_hashkey == None:
+      print("adsorbent not found")
 
 # find InChIKey for adsorbate
 adsorbate_InChIKey = None
-for x in adsorbate_json:
-  if x['name'] == adsorbate or adsorbate in x['synonyms']:
-    adsorbate_InChIKey = x['InChIKey']
-    break
+while adsorbate_InChIKey == None:
 
-if adsorbate_InChIKey == None:
-  exit("adsorbate not found")
+    adsorbate = input("adsorbate >> ")
+
+    for x in adsorbate_json:
+      if x['name'] == adsorbate or adsorbate in x['synonyms']:
+        adsorbate_InChIKey = x['InChIKey']
+        break
+
+    if adsorbate_InChIKey == None:
+      print("adsorbate not found")
 
 # for each isotherm
 for x in item1:
