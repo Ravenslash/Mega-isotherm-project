@@ -22,7 +22,17 @@ conditions contain wildly varying graphs. We attempt to address this problem by 
 large collated isotherm (colloquially referred to as a “mega-isotherm”) and using Langmuir (and if better optimized in the future other) 
 isotherm models to create a single standardized and more generally representative graph.
 
+Common issues:
 
+  pyIAST runtime error:
+    one can change the starting guesses for the optimization algorithm with the optional parameter "param_guess" which takes a dictionary of 
+    parameter names and starting guesses. Running through a few often fixes the issue, except on particularly difficult to model datasets
+    
+  The model does not fit the data at all:
+    The search for the cause of this issue is ongoing, but it is believed to be another problem with the optimization algorithm used by 
+    pyIAST.
+    
+  
 
 credit for pyiast module:
 
