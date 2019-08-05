@@ -1,8 +1,12 @@
-
 import json
 from urllib.request import urlopen
 from sys import exit
 import csv
+
+##########################################################################################
+### Gets many adsorbent/adsorbate combinations at once                                 ###
+### Can be edited to the user's purposes by changing the names in the nested for-loops ###
+##########################################################################################
 
 # get list of adsorbents
 adsorbent_json = json.load(urlopen("https://adsorbents.nist.gov/matdb/api/materials.json"))
