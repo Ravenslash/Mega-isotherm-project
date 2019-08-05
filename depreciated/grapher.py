@@ -1,5 +1,7 @@
 import matplotlib.pyplot as plt
 
+### works only on two column csvs, thus is now depreciated ###
+
 def display(some_list_x, some_list_y):
     plt.scatter(some_list_x, some_list_y, s=1)
     plt.draw()
