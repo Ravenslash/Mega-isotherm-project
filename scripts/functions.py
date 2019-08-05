@@ -2,6 +2,10 @@ import json
 from urllib.request import urlopen
 from sys import exit
 
+################################################################
+### various useful functions to be imported to other scripts ###
+################################################################
+
 def get_adsorbent(adsorbent_json):
 
     adsorbent = input("adsorbent >> ")
