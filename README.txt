@@ -28,6 +28,12 @@ and converting data from database isotherms into a large collated isotherm (coll
 using Langmuir (and if better optimized in the future other) isotherm models to create a single standardized and more 
 generally representative graph.
 
+Plans/ideas for improvement:
+  
+  1. Finding a way to include liquid-phase adsorption
+  2. Accounting for hysteresis in mesoporous materials
+  3. Automating the identification of isotherms so far from the model as to warrant special attention
+
 Common issues:
 
   pyIAST runtime error:
