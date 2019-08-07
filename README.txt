@@ -38,6 +38,7 @@ scripts contains miscellaneous useful scripts for plotting, model fitting, worki
 depreciated, true to its name, contains depreciated scripts
 
 
+
 Plans/ideas for improvement:
   
   1. Finding a way to include liquid-phase adsorption
