@@ -35,6 +35,7 @@ example contains a single example output from main.py and a compressed folder of
 
 scripts contains miscellaneous useful scripts for plotting, model fitting, working with lots of data at once, etc.
 
+depreciated, true to its name, contains depreciated scripts
 
 
 Plans/ideas for improvement:
