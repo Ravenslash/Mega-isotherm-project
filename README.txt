@@ -14,13 +14,14 @@ daniel.w.coile@gmail.com
 Justin Chen
 yeutyngchen@gmail.com
 
-PLEASE REPORT ANY BUGS OR ANNOYANCES TO ONE OR ALL OF THESE EMAILS
+PLEASE REPORT ANY BUGS OR ANNOYANCES TO ONE OF THESE EMAILS
 
 thank you
 
 ------------------------------------------------------------------------------------------------------------------------------
 
 Outline:
+
 The NIST/ARPA-E Database of Novel and Emerging Adsorbent Materials consists of 30,000 unique isotherms collected over the 
 course of 4 years, spanning 6,426 adsorbent materials and 299 adsorbate gases.[1] However, many isotherms with the same 
 adsorbent, adsorbate, and testing conditions contain wildly varying graphs. We attempt to address this problem by collecting 
@@ -28,11 +29,21 @@ and converting data from database isotherms into a large collated isotherm (coll
 using Langmuir (and if better optimized in the future other) isotherm models to create a single standardized and more 
 generally representative graph.
 
+main.py is a simple script for extracting data from the database
+
+example contains a single example output from main.py and a compressed folder of a collection of them
+
+scripts contains miscellaneous useful scripts for plotting, model fitting, working with lots of data at once, etc.
+
+
+
 Plans/ideas for improvement:
   
   1. Finding a way to include liquid-phase adsorption
   2. Accounting for hysteresis in mesoporous materials
   3. Automating the identification of isotherms so far from the model as to warrant special attention
+  
+  
 
 Common issues:
 
